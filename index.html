@@ -35,8 +35,8 @@ main{padding:18px}
 .proximo .torneo{color:var(--oro);font-weight:500;font-size:14px}
 .proximo .vs{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:34px;line-height:1.1;margin:8px 0}
 .proximo .cuando{font-size:17px}
-.partido{display:block;width:100%;text-align:left;background:var(--tarjeta);border:1px solid var(--linea);border-left:5px solid var(--azul-2);border-radius:10px;padding:14px;margin-bottom:10px;color:inherit;font:inherit;cursor:pointer}
-.partido.g{border-left-color:var(--oro)}
+.partido{display:block;width:100%;text-align:left;background:var(--tarjeta);border:1px solid var(--linea);border-left:5px solid var(--oro);border-radius:10px;padding:14px;margin-bottom:10px;color:inherit;font:inherit;cursor:pointer}
+.partido.g{border-left-color:#2E9E4F}
 .partido.p{border-left-color:#C0392B}
 .fila{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .fecha{color:var(--suave);font-size:13px}
@@ -141,8 +141,40 @@ const jugados = [
     rivalGoles: ["Gastón Lodico 19'", "Adrián Martínez 47'"] },
   { fecha: "20 sep", torneo: "Liga Profesional · Clausura, fecha 10", rival: "San Lorenzo", local: false, gb: 2, gr: 0,
     goles: ["Leandro Lozano", "Miguel Merentiel"], rivalGoles: [] },
+  { fecha: "15 sep", torneo: "Copa Sudamericana · cuartos (vuelta)", rival: "São Paulo", local: false, gb: 1, gr: 1,
+    goles: ["Lozano 60'"], rivalGoles: ["Duarte 89'"] },
   { fecha: "Fecha 9", torneo: "Liga Profesional · Clausura", rival: "Central Córdoba", local: true, gb: 3, gr: 1,
-    goles: ["Romero 5'", "Valencia 11'", "Romero 56'"], rivalGoles: ["Cuitiño 90'"] }
+    goles: ["Romero 5'", "Valencia 11'", "Romero 56'"], rivalGoles: ["Cuitiño 90'"] },
+  { fecha: "8 sep", torneo: "Copa Sudamericana · cuartos (ida)", rival: "São Paulo", local: true, gb: 1, gr: 0,
+    goles: ["Merentiel 52'"], rivalGoles: [] },
+  { fecha: "5 sep", torneo: "Liga Profesional · Clausura", rival: "Gimnasia (M)", local: false, gb: 2, gr: 2,
+    goles: ["Velasco 17'", "Zenón 38'"], rivalGoles: ["Sabatini 19'", "Fernández 90+4'"] },
+  { fecha: "2 sep", torneo: "Copa Argentina", rival: "Vélez", local: null, gb: 0, gr: 0, res: "g",
+    nota: "Ganó Boca por penales 4-3.", goles: [], rivalGoles: [] },
+  { fecha: "28 ago", torneo: "Liga Profesional · Clausura", rival: "Lanús", local: true, gb: 1, gr: 0,
+    goles: ["Belmonte (minuto a confirmar)"], rivalGoles: [] },
+  { fecha: "23 ago", torneo: "Liga Profesional · Clausura", rival: "Racing", local: false, gb: 1, gr: 1,
+    goles: ["Merentiel 28'"], rivalGoles: ["Rojo 9'"] },
+  { fecha: "18 ago", torneo: "Copa Sudamericana · octavos (vuelta)", rival: "Recoleta", local: false, gb: 4, gr: 0,
+    goles: ["Ascacibar 30'", "Villa 43'", "Merentiel 52'", "Velasco 77'"], rivalGoles: [] },
+  { fecha: "15 ago", torneo: "Liga Profesional · Clausura", rival: "Platense", local: false, gb: 1, gr: 1,
+    goles: ["Merentiel 80'"], rivalGoles: ["Retamar 53'"] },
+  { fecha: "11 ago", torneo: "Copa Sudamericana · octavos (ida)", rival: "Recoleta", local: true, gb: 3, gr: 1,
+    goles: ["Ascacibar 49'", "Delgado 51'", "Flores 62'"], rivalGoles: ["Ríos 5'"] },
+  { fecha: "8 ago", torneo: "Liga Profesional · Clausura", rival: "Vélez", local: true, gb: 1, gr: 1,
+    goles: ["Ascacibar 39'"], rivalGoles: ["Valdés 12'"] },
+  { fecha: "5 ago", torneo: "Liga Profesional · Clausura", rival: "Estudiantes", local: true, gb: 1, gr: 0,
+    goles: ["Ascacibar 45+1'"], rivalGoles: [] },
+  { fecha: "2 ago", torneo: "Liga Profesional · Clausura", rival: "Newell's", local: false, gb: 2, gr: 2,
+    goles: ["Ascacibar 30'", "Velasco 81'"], rivalGoles: ["Coccaro 50'", "Regiardo 59'"] },
+  { fecha: "30 jul", torneo: "Copa Sudamericana · playoff (vuelta)", rival: "O'Higgins", local: false, gb: 0, gr: 1, res: "g",
+    nota: "Ganó Boca por penales 4-3 y clasificó.", goles: [], rivalGoles: ["González 72'"] },
+  { fecha: "26 jul", torneo: "Liga Profesional · Clausura", rival: "Riestra", local: false, gb: 0, gr: 3,
+    goles: [], rivalGoles: ["Sánchez 7'", "Alonso 23'", "Díaz 38'"] },
+  { fecha: "23 jul", torneo: "Copa Sudamericana · playoff (ida)", rival: "O'Higgins", local: true, gb: 1, gr: 0,
+    goles: ["Merentiel 44'"], rivalGoles: [] },
+  { fecha: "16 jul", torneo: "Copa Argentina", rival: "Sarmiento", local: null, gb: 2, gr: 0,
+    goles: ["Velasco 51'", "Flores 71'"], rivalGoles: [] }
 ];
 
 // Un cruce de copa: equipo a, equipo b, resultados, quién ganó ("a" o "b") y un detalle.
@@ -240,10 +272,15 @@ function mostrarProximo() {
     </div>` + calendario;
 }
 
+let filtro = "Todos";
+
 function mostrarResultados() {
   const lista = (arr) => arr === null ? "sin cargar" : arr.length ? arr.join(", ") : "—";
-  vista.innerHTML = jugados.map(m => {
-    const clase = m.gb > m.gr ? "g" : m.gb < m.gr ? "p" : "";
+  const cats = ["Todos", "Liga", "Copa Argentina", "Sudamericana"];
+  const cat = (m) => m.torneo.startsWith("Liga") ? "Liga" : m.torneo.startsWith("Copa Argentina") ? "Copa Argentina" : "Sudamericana";
+  const chips = `<div class="chips">${cats.map(n => `<button data-f="${n}" class="${n === filtro ? "on" : ""}">${n}</button>`).join("")}</div>`;
+  vista.innerHTML = chips + jugados.filter(m => filtro === "Todos" || cat(m) === filtro).map(m => {
+    const clase = m.res || (m.gb > m.gr ? "g" : m.gb < m.gr ? "p" : "");
     return `
     <button class="partido ${clase}" aria-expanded="false">
       <div class="fila">
@@ -256,6 +293,7 @@ function mostrarResultados() {
       <div class="detalle">
         <p><b>Goles de Boca:</b> ${lista(m.goles)}</p>
         <p><b>Goles de ${m.rival}:</b> ${lista(m.rivalGoles)}</p>
+        ${m.nota ? `<p><b>Nota:</b> ${m.nota}</p>` : ""}
       </div>
     </button>`;
   }).join("");
@@ -291,7 +329,11 @@ function mostrarTablas() {
 // 3) LOS EVENTOS: qué pasa cuando tocas algo.
 vista.addEventListener("click", (e) => {
   const chip = e.target.closest(".chips button");
-  if (chip) { tablaActual = chip.dataset.t; mostrarTablas(); return; }
+  if (chip) {
+    if (chip.dataset.f !== undefined) { filtro = chip.dataset.f; mostrarResultados(); }
+    else { tablaActual = chip.dataset.t; mostrarTablas(); }
+    return;
+  }
   const tarjeta = e.target.closest(".partido");
   if (!tarjeta) return;
   const abierto = tarjeta.classList.toggle("abierto");
