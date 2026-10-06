@@ -149,7 +149,7 @@ const jugados = [
     goles: ["Merentiel 52'"], rivalGoles: [] },
   { fecha: "5 sep", torneo: "Liga Profesional · Clausura", rival: "Gimnasia (M)", local: false, gb: 2, gr: 2,
     goles: ["Velasco 17'", "Zenón 38'"], rivalGoles: ["Sabatini 19'", "Fernández 90+4'"] },
-  { fecha: "2 sep", torneo: "Copa Argentina", rival: "Vélez", local: null, gb: 0, gr: 0, res: "g",
+  { fecha: "2 sep", torneo: "Copa Argentina", rival: "Vélez", local: null, gb: 0, gr: 0, res: "g", pen: [4, 3],
     nota: "Ganó Boca por penales 4-3.", goles: [], rivalGoles: [] },
   { fecha: "28 ago", torneo: "Liga Profesional · Clausura", rival: "Lanús", local: true, gb: 1, gr: 0,
     goles: ["Belmonte (minuto a confirmar)"], rivalGoles: [] },
@@ -167,7 +167,7 @@ const jugados = [
     goles: ["Ascacibar 45+1'"], rivalGoles: [] },
   { fecha: "2 ago", torneo: "Liga Profesional · Clausura", rival: "Newell's", local: false, gb: 2, gr: 2,
     goles: ["Ascacibar 30'", "Velasco 81'"], rivalGoles: ["Coccaro 50'", "Regiardo 59'"] },
-  { fecha: "30 jul", torneo: "Copa Sudamericana · playoff (vuelta)", rival: "O'Higgins", local: false, gb: 0, gr: 1, res: "g",
+  { fecha: "30 jul", torneo: "Copa Sudamericana · playoff (vuelta)", rival: "O'Higgins", local: false, gb: 0, gr: 1, res: "g", pen: [4, 3],
     nota: "Ganó Boca por penales 4-3 y clasificó.", goles: [], rivalGoles: ["González 72'"] },
   { fecha: "26 jul", torneo: "Liga Profesional · Clausura", rival: "Riestra", local: false, gb: 0, gr: 3,
     goles: [], rivalGoles: ["Sánchez 7'", "Alonso 23'", "Díaz 38'"] },
@@ -183,31 +183,31 @@ const c = (a, b, ra, rb, g, det) => ({ a, b, ra, rb, g, det });
 // Tablas: cada una tiene filas [equipo, partidos jugados, puntos] o, si no hay tabla, un texto.
 const tablas = {
   "Clausura Zona A": {
-    nota: "Estado al 3 de octubre.",
+    nota: "Tras la fecha 11.",
     zona: (i) => i < 8 ? "z-oct" : "",
     leyenda: [["#4DA3FF", "Octavos de final (los 8 primeros de cada zona)"]],
-    filas: [["Instituto",11,25],["Boca",11,20],["Vélez",10,20],["Defensa y Justicia",10,18],["Gimnasia (M)",10,17],
-            ["Independiente",11,17],["Lanús",10,16],["Newell's",10,16],["Unión",11,13],["San Lorenzo",10,11],
-            ["Estudiantes",10,10],["Riestra",10,10],["Platense",10,9],["Talleres",10,8],["Central Córdoba",10,8]]
+    filas: [["Instituto",11,25],["Vélez",11,21],["Defensa y Justicia",11,21],["Boca",11,20],["Lanús",11,17],
+            ["Newell's",11,17],["Gimnasia (M)",11,17],["Independiente",11,17],["Estudiantes (LP)",11,13],["Unión",11,13],
+            ["Riestra",11,11],["San Lorenzo",11,11],["Platense",11,10],["Central Córdoba",11,9],["Talleres",11,8]]
   },
   "Clausura Zona B": {
-    nota: "Cargada a mano desde la tabla de la zona. Puede quedar desactualizada.",
+    nota: "Tras la fecha 11.",
     zona: (i) => i < 8 ? "z-oct" : "",
     leyenda: [["#4DA3FF", "Octavos de final (los 8 primeros de cada zona)"]],
-    filas: [["Argentinos",10,18],["Rosario Central",10,18],["Independiente Rivadavia",11,18],["Gimnasia (LP)",11,18],["Belgrano",10,16],
-            ["Huracán",10,16],["Sarmiento",10,16],["Barracas Central",11,15],["River",10,13],["Atlético Tucumán",11,13],
-            ["Tigre",10,12],["Banfield",10,9],["Aldosivi",10,8],["Racing",10,8],["Estudiantes (RC)",10,6]]
+    filas: [["Argentinos",11,21],["Belgrano",11,19],["Rosario Central",11,19],["Huracán",11,19],["Independiente Rivadavia",11,18],
+            ["Gimnasia (LP)",11,18],["Sarmiento",10,16],["Barracas Central",11,15],["River",10,13],["Atlético Tucumán",11,13],
+            ["Tigre",11,12],["Racing",11,11],["Banfield",11,10],["Aldosivi",11,8],["Estudiantes (RC)",11,6]]
   },
   "Tabla anual": {
-    nota: "Estado al 3 de octubre.",
+    nota: "Tras la fecha 11.",
     zona: (i) => i === 0 ? "z-cam" : i < 3 ? "z-lib" : i < 9 ? "z-sud" : i === 29 ? "z-des" : "",
     leyenda: [["#7ED957", "Campeón de Liga: Libertadores 2027 y Supercopa"], ["#F2C94C", "Copa Libertadores"], ["#5EE0E0", "Copa Sudamericana"], ["#E5484D", "Descenso"]],
-    filas: [["Independiente Rivadavia",27,52],["Boca",27,50],["Vélez",26,48],["Argentinos",26,47],["Instituto",27,46],
-            ["Rosario Central",26,46],["Gimnasia (LP)",27,44],["River",26,42],["Belgrano",26,42],["Estudiantes (LP)",26,41],
-            ["Independiente",27,41],["Lanús",26,40],["Huracán",26,38],["Defensa y Justicia",26,37],["Gimnasia (M)",26,36],
-            ["Sarmiento",26,35],["Unión",27,34],["Talleres",26,34],["Barracas Central",26,33],["San Lorenzo",26,33],
-            ["Tigre",26,32],["Newell's",26,31],["Racing",26,29],["Atlético Tucumán",26,27],["Banfield",26,27],
-            ["Platense",26,25],["Central Córdoba",26,24],["Riestra",26,21],["Aldosivi",26,16],["Estudiantes (RC)",26,11]]
+    filas: [["Independiente Rivadavia",27,52],["Boca",27,50],["Argentinos",27,50],["Vélez",27,49],["Rosario Central",27,47],
+            ["Instituto",27,46],["Belgrano",27,45],["Estudiantes (LP)",27,44],["Gimnasia (LP)",27,44],["River",26,42],
+            ["Lanús",27,41],["Huracán",27,41],["Independiente",27,41],["Defensa y Justicia",27,40],["Barracas Central",27,36],
+            ["Gimnasia (M)",27,36],["Sarmiento",26,35],["Unión",27,34],["Talleres",27,34],["San Lorenzo",27,33],
+            ["Tigre",27,32],["Racing",27,32],["Newell's",27,32],["Banfield",27,28],["Atlético Tucumán",27,27],
+            ["Platense",27,26],["Central Córdoba",27,25],["Riestra",27,22],["Aldosivi",27,16],["Estudiantes (RC)",27,11]]
   },
   "Copa Argentina": { pie: "Cada ronda se juega en un solo partido, con penales si hay empate.", rondas: [
     { nombre: "Cuartos", cruces: [
@@ -272,6 +272,16 @@ function mostrarProximo() {
     </div>` + calendario;
 }
 
+// El marcador va en el mismo orden que el título: el local primero.
+function marcadorDe(m) {
+  const loc = m.local === true;
+  const [a, b] = loc ? [m.gb, m.gr] : [m.gr, m.gb];
+  let [pa, pb] = [null, null];
+  if (m.pen) [pa, pb] = loc ? m.pen : [m.pen[1], m.pen[0]];
+  const con = (g, p) => g + (p !== null ? " (" + p + ")" : "");
+  return con(a, pa) + " - " + con(b, pb);
+}
+
 let filtro = "Todos";
 
 function mostrarResultados() {
@@ -288,7 +298,7 @@ function mostrarResultados() {
           <div class="fecha">${etiqueta(m.local)}${m.fecha} · ${m.torneo}</div>
           <div class="rival">${titulo(m)}</div>
         </div>
-        <div class="marcador">${m.gb} - ${m.gr}</div>
+        <div class="marcador">${marcadorDe(m)}</div>
       </div>
       <div class="detalle">
         <p><b>Goles de Boca:</b> ${lista(m.goles)}</p>
